@@ -27,8 +27,26 @@ typedef enum vtk_color_code {
     VTK_BLUE = 4,
     VTK_MAGENTA = 5,
     VTK_CYAN = 6,
-    VTK_WHITE = 7
+    VTK_WHITE = 7,
+    VTK_BRIGHT_BLACK = 8,
+    VTK_BRIGHT_RED = 9,
+    VTK_BRIGHT_GREEN = 10,
+    VTK_BRIGHT_YELLOW = 11,
+    VTK_BRIGHT_BLUE = 12,
+    VTK_BRIGHT_MAGENTA = 13,
+    VTK_BRIGHT_CYAN = 14,
+    VTK_BRIGHT_WHITE = 15
 } vtk_color_code;
+
+/* 256-color helpers: RGB cube (16-231) and grayscale (232-255). */
+/* Each of r, g, b must be in 0..5; level must be in 0..23.      */
+static inline int vtk_rgb(int r, int g, int b) {
+    return 16 + (r * 36) + (g * 6) + b;
+}
+
+static inline int vtk_gray(int level) {
+    return 232 + (level < 24 ? level : 23);
+}
 
 VTK_API void vtk_clear(void);
 VTK_API void vtk_goto(int x, int y);

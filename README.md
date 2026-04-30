@@ -2,12 +2,15 @@
 
 Small C terminal control library that builds as a shared library for reuse in other projects.
 
+Really its very very simple to use. Anywhere you can link c.
+
+
 ## API
 
 - `vtk_clear()` clear screen, cursor to 0,0
 - `vtk_goto(x, y)` move cursor to column `x`, row `y`
-- `vtk_color(n)` set foreground color (`0..7`)
-- `vtk_bg(n)` set background color (`0..7`)
+- `vtk_color(n)` set foreground color (`0..255`)
+- `vtk_bg(n)` set background color (`0..255`)
 - `vtk_reset()` reset fg/bg to terminal defaults
 - `vtk_hide_cursor()` hide cursor
 - `vtk_show_cursor()` show cursor
@@ -36,6 +39,8 @@ Color constants are provided in `enum vtk_color_code`:
 
 - `VTK_BLACK`, `VTK_RED`, `VTK_GREEN`, `VTK_YELLOW`
 - `VTK_BLUE`, `VTK_MAGENTA`, `VTK_CYAN`, `VTK_WHITE`
+- Bright variants are provided as macros: `VTK_BRIGHT_BLACK` through `VTK_BRIGHT_WHITE`
+- Any explicit color index in `0..255` is accepted for both foreground and background
 
 ## Build
 
@@ -92,15 +97,12 @@ cmake --build build
 
 Run simple API demo:
 
+![Sanity Check Demo and Test](./Screenshot%20From%202026-04-30%2022-03-44.png)
+
 ```bash
 ./build/vtk_demo
 ```
 
-Run animated Pong demo:
-
-```bash
-./build/vtk_pong
-```
 
 Run lines/color demo (any key draws a new batch, `Q` to quit):
 
@@ -108,31 +110,28 @@ Run lines/color demo (any key draws a new batch, `Q` to quit):
 ./build/vtk_lines
 ```
 
-Start Pong with a custom delay (milliseconds per frame):
+![Drawing Lines On Key Press](./Screenshot%20From%202026-04-30%2022-04-38.png)
+
+
+Run boxes/rectangles demo (any key draws a new batch, `Q` to quit):
 
 ```bash
-./build/vtk_pong 70
+./build/vtk_rect
 ```
 
-Set frame delay plus key repeat timing (frame_ms initial_repeat_ms repeat_interval_ms):
+![Drawing Lines On Key Press](./Screenshot%20From%202026-04-30%2022-05-23.png)
+
+
+
+Run animated Pong demo:
+
+![Pong Game Demo and Test](./Screenshot%20From%202026-04-30%2022-05-49.png)
+
 
 ```bash
-./build/vtk_pong 70 80 25
+./build/vtk_pong
 ```
 
-Use `0` for `initial_repeat_ms` to remove extra first-hold delay (first repeat uses the normal repeat interval):
-
-```bash
-./build/vtk_pong 70 0 25
-```
-
-Optional 4th argument sets hold release timeout in ms (how long custom repeat continues after last key event):
-
-```bash
-./build/vtk_pong 70 0 25 400
-```
-
-Recommended to remove first-hold gap on many terminals: `initial_repeat_ms=0` and `hold_release_timeout_ms=350..500`.
 
 Controls for Pong demo:
 

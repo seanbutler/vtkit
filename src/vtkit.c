@@ -22,8 +22,8 @@ static int vtk_clamp_color(int n) {
     if (n < 0) {
         return 0;
     }
-    if (n > 7) {
-        return 7;
+    if (n > 255) {
+        return 255;
     }
     return n;
 }
