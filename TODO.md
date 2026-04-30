@@ -65,4 +65,4 @@
 - [x] Rename all example `#include` paths and update `demo_utils.h`
 - [x] Update `README.md` to reflect new name and API prefix
 - [x] Rename the project directory from `term/` to `vtkit/`
-- [ ] Push the project to https://github.com/seanbutler/vtkit
+- [x] Push the project to https://github.com/seanbutler/vtkit
