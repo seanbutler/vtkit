@@ -76,8 +76,8 @@ Installs headers and CMake package files so other projects can use `find_package
 ## Use from another CMake project
 
 ```cmake
-find_package(term CONFIG REQUIRED)
-target_link_libraries(my_app PRIVATE term::term)
+find_package(vtkit CONFIG REQUIRED)
+target_link_libraries(my_app PRIVATE vtkit::vtkit)
 ```
 
 To link the static variant (when built):
