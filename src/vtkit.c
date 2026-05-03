@@ -136,6 +136,9 @@ void vtk_buffer_present(void) {
             g_buffer_front[idx] = next;
         }
     }
+
+    /* Ensure the final cell in the frame is pushed immediately. */
+    fflush(stdout);
 }
 
 void vtk_buffer_hline(int x, int y, int len, char ch, int fg, int bg) {
@@ -265,14 +268,26 @@ void vtk_goto(int x, int y) {
 void vtk_color(int n) {
     vtk_enable_vt_processing();
     n = vtk_clamp_color(n);
-    fprintf(stdout, "\x1b[%dm", 30 + n);
+    if (n >= 16) {
+        fprintf(stdout, "\x1b[38;5;%dm", n);
+    } else if (n >= 8) {
+        fprintf(stdout, "\x1b[%dm", 90 + (n - 8));
+    } else {
+        fprintf(stdout, "\x1b[%dm", 30 + n);
+    }
     fflush(stdout);
 }
 
 void vtk_bg(int n) {
     vtk_enable_vt_processing();
     n = vtk_clamp_color(n);
-    fprintf(stdout, "\x1b[%dm", 40 + n);
+    if (n >= 16) {
+        fprintf(stdout, "\x1b[48;5;%dm", n);
+    } else if (n >= 8) {
+        fprintf(stdout, "\x1b[%dm", 100 + (n - 8));
+    } else {
+        fprintf(stdout, "\x1b[%dm", 40 + n);
+    }
     fflush(stdout);
 }
 
@@ -410,13 +425,25 @@ void vtk_goto(int x, int y) {
 
 void vtk_color(int n) {
     n = vtk_clamp_color(n);
-    fprintf(stdout, "\x1b[%dm", 30 + n);
+    if (n >= 16) {
+        fprintf(stdout, "\x1b[38;5;%dm", n);
+    } else if (n >= 8) {
+        fprintf(stdout, "\x1b[%dm", 90 + (n - 8));
+    } else {
+        fprintf(stdout, "\x1b[%dm", 30 + n);
+    }
     fflush(stdout);
 }
 
 void vtk_bg(int n) {
     n = vtk_clamp_color(n);
-    fprintf(stdout, "\x1b[%dm", 40 + n);
+    if (n >= 16) {
+        fprintf(stdout, "\x1b[48;5;%dm", n);
+    } else if (n >= 8) {
+        fprintf(stdout, "\x1b[%dm", 100 + (n - 8));
+    } else {
+        fprintf(stdout, "\x1b[%dm", 40 + n);
+    }
     fflush(stdout);
 }
 
